@@ -1,4 +1,9 @@
 // menu https://wisc-housingdining.nutrislice.com/menu
+
+//ToDO:
+// Breakfast Lunch and Dinner checkboxes
+// Market Checkboxes
+//
 var week;
 var day;
 var menu = [];
