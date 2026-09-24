@@ -10,13 +10,15 @@ const NAMES = {
 
 // gets the menu for the week from nutrislice
 async function getMenu(market, meal) {
-    let date = new Date().toLocaleDateString('sv-SE').replaceAll("-","/");
+    let date = new Date().toLocaleDateString('sv-SE').replaceAll("-", "/");
     const link = "https://worker.mrtylersolid.workers.dev/?market=" + market + "&meal=" + meal + "&date=" + date;
     console.log(link);
     try {
         const response = await fetch(link);
         if (!response.ok) {
-            alert("bad");
+            alert("Something lowk went wrong");
+            document.getElementById("meal").disabled = false;
+    document.getElementById("field").disabled = false;
             return;
         }
 
@@ -36,7 +38,9 @@ async function getItems(id) {
     try {
         const response = await fetch(link);
         if (!response.ok) {
-            alert("bad");
+            alert("Something lowk went wrong");
+            document.getElementById("meal").disabled = false;
+    document.getElementById("field").disabled = false;
             return;
         }
 
@@ -68,6 +72,16 @@ async function doEverything() {
 
     // loading bar to show that things are in fact working
     document.getElementById("loading").textContent = "Loading...";
+    document.getElementById("meal").disabled = true;
+    document.getElementById("field").disabled = true;
+
+    
+        document.querySelectorAll(".Item").forEach(element => {
+            element.remove();
+
+        });
+
+    
 
     // fetch the menus from all checked markets at once and return when they get returned (meal comes from dropdown)
     var fetchdays = locations.map(async (item) => {
@@ -100,18 +114,23 @@ async function doEverything() {
             }
 
             // push nested foods ids to ids to get later
+            // each entry is the id and the object
             if (i["food"]["nested_foods"].length != 0) {
                 ids.push([i["id"], i["food"]["nested_foods"]]);
                 console.log(i["id"], i["food"]["nested_foods"])
                 continue
             }
 
-            
+            // target lowk returns the object with the same name as the one we are looking at
+            // if it exists, it just adds the market if it doesnt it makes a new entry
             var target = Object.values(menu).find(user => user.name === i["food"]["name"]);
-            if (target && !target.locations.includes(NAMES[locations[week]])) {
-                target.locations.push(NAMES[locations[week]]);
+            if (target) {
+                if (!target.locations.includes(NAMES[locations[week]])) {
+                    target.locations.push(NAMES[locations[week]]);
+                }
             }
             else {
+                // menu item
                 menu.push({
 
                     "name": i["food"]["name"],
@@ -123,20 +142,30 @@ async function doEverything() {
                 })
             }
         }
+        // the list of ids returned from the last call
         let fetchids = ids.map(async (item) => {
+            // for some reason the location is the same for all markets
             let response = await getItems(item[0], 45371);
             return await response;
         });
+        // send all awaits at the same time
         var idsResponses = await Promise.all(fetchids)
         console.log("ids", ids)
+
+        // loop through the retuned id nutrition info
         for (var i = 0; i < ids.length; i++) {
             let items = idsResponses[i];
             console.log("-----")
             console.log(items)
             console.log("nested", items["nested_option_container_map"])
+
+            // forgot why i need to loop through here again
             for (var l of ids[i][1]) {
+                // thing is the parent of the food
                 var thing = items.nested_option_container_map[l]
                 console.log(thing)
+
+                // see if the name is already in menu
                 var target = Object.values(menu).find(user => user.name === thing["name"]);
                 if (target && !target.locations.includes(NAMES[locations[week]])) {
                     target.locations.push(NAMES[locations[week]]);
@@ -156,13 +185,13 @@ async function doEverything() {
         }
 
 
-    } if (document.getElementsByClassName("Item")) {
-        document.querySelectorAll(".Item").forEach(element => {
-            element.remove();
+    }
+    
+    // sort by ratio (or 0 if its undefined or somthing)
+    menu.sort((a, b) => (b.ratio || 0) - (a.ratio || 0))
+    document.getElementById("loading").textContent = "";
 
-        });
-    }menu.sort((a, b) => (b.ratio || 0) - (a.ratio || 0))
-    document.getElementById("loading").textContent = ""
+    // create menu items, make pretty later
     for (i of menu) {
         const item = document.createElement("div");
         item.className = "Item"
@@ -175,16 +204,23 @@ async function doEverything() {
         document.body.appendChild(item);
 
     }
+    document.getElementById("meal").disabled = false;
+    document.getElementById("field").disabled = false;
     console.log(menu)
 
 };
 console.log("test2")
+
+// run on page load
 doEverything();
+
+// run again on dropdown change
 document.getElementById("meal").addEventListener("change", () => {
     console.log("VERY IMPORTANT")
     doEverything();
 })
 
+// run again on market buttons change
 document.getElementById("field").addEventListener("change", () => {
     console.log("VERY IMPORTANT")
     doEverything();
