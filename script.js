@@ -50,18 +50,34 @@ async function getItems(id, loc) {
     }
     return 1;
 }
-const fetchdays = locations.map(async (item) => {
-    const response = await getMenu(item, document.getElementById("meal").value);
-    return await response;
-});
+
 async function doEverything() {
+
+    locations = [
+
+    ];
+    document.getElementById("four-lakes-market").checked && locations.push(document.getElementById("four-lakes-market").value)
+    document.getElementById("carsons-market").checked && locations.push(document.getElementById("carsons-market").value)
+    document.getElementById("gordon-avenue-market").checked && locations.push(document.getElementById("gordon-avenue-market").value)
+    document.getElementById("lizs-market").checked && locations.push(document.getElementById("lizs-market").value)
+    document.getElementById("rhetas-market").checked && locations.push(document.getElementById("rhetas-market").value)
+
+    document.getElementById("loading").textContent = "Loading...";
+    var fetchdays = locations.map(async (item) => {
+        const response = await getMenu(item, document.getElementById("meal").value);
+        return await response;
+    });
     alldays = await Promise.all(fetchdays)
-    if (document.getElementById("loading")) {
-        document.getElementById("loading").remove();
+
+
+
+    if (document.getElementsByClassName("Item")) {
+        document.querySelectorAll(".Item").forEach(element => {
+            element.remove();
+
+        });
     }
-    if (document.getElementById("All Items")){
-        document.getElementById("All Items").remove();
-    }
+    menu = [];
     console.log(alldays)
     for (var week = 0; week < alldays.length; week++) {
         //week = await getMenu("four-lakes-market", "dinner")
@@ -86,7 +102,9 @@ async function doEverything() {
                 console.log(i["id"], i["food"]["nested_foods"])
                 continue
             }
+            const targetUser = Object.values(menu).find(user => user.name === i["food"]["name"]);
             menu.push({
+
                 "name": i["food"]["name"],
                 "protien": i["food"]["rounded_nutrition_info"]["g_protein"],
                 "calories": i["food"]["rounded_nutrition_info"]["calories"],
@@ -124,10 +142,10 @@ async function doEverything() {
 
 
     } menu.sort((a, b) => (b.ratio || 0) - (a.ratio || 0))
-
+    document.getElementById("loading").textContent = ""
     for (i of menu) {
         const item = document.createElement("div");
-        item.id = "All Items"
+        item.className = "Item"
 
         item.style.border = "3px solid black";
         //"Calories" + i.calories + "Protien:" + i.protien + " " + i.name +i.week
@@ -147,3 +165,7 @@ document.getElementById("meal").addEventListener("change", () => {
     doEverything();
 })
 
+document.getElementById("field").addEventListener("change", () => {
+    console.log("VERY IMPORTANT")
+    doEverything();
+})
