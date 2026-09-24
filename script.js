@@ -51,19 +51,25 @@ async function getItems(id, loc) {
     return 1;
 }
 const fetchdays = locations.map(async (item) => {
-    const response = await getMenu(item, "lunch");
+    const response = await getMenu(item, document.getElementById("meal").value);
     return await response;
 });
-(async () => {
-    allthefellas = await Promise.all(fetchdays)
-    console.log(allthefellas)
-    for (week of allthefellas) {
+async function doEverything() {
+    alldays = await Promise.all(fetchdays)
+    if (document.getElementById("loading")) {
+        document.getElementById("loading").remove();
+    }
+    if (document.getElementById("All Items")){
+        document.getElementById("All Items").remove();
+    }
+    console.log(alldays)
+    for (var week = 0; week < alldays.length; week++) {
         //week = await getMenu("four-lakes-market", "dinner")
         ids = [];
-        console.log("hi", week);
+        console.log("location" + locations[week]);
 
 
-        for (var i of week["days"]) {
+        for (var i of alldays[week]["days"]) {
             console.log(new Date().toLocaleDateString('sv-SE'))
             if (i["date"] === new Date().toLocaleDateString('sv-SE')) {
                 day = i;
@@ -85,7 +91,8 @@ const fetchdays = locations.map(async (item) => {
                 "protien": i["food"]["rounded_nutrition_info"]["g_protein"],
                 "calories": i["food"]["rounded_nutrition_info"]["calories"],
                 "ratio":
-                    parseFloat(i["food"]["rounded_nutrition_info"]["g_protein"]) / parseFloat(i["food"]["rounded_nutrition_info"]["calories"])
+                    parseFloat(i["food"]["rounded_nutrition_info"]["g_protein"]) / parseFloat(i["food"]["rounded_nutrition_info"]["calories"]),
+                "week": locations[week]
             })
         }
         let fetchids = ids.map(async (item) => {
@@ -102,30 +109,41 @@ const fetchdays = locations.map(async (item) => {
             for (var l of ids[i][1]) {
                 thing = items.nested_option_container_map[l]
                 console.log(thing)
+
                 menu.push({
                     "name": thing["name"],
                     "protien": thing["rounded_nutrition_info"]["g_protein"],
                     "calories": thing["rounded_nutrition_info"]["calories"],
                     "ratio":
                         parseFloat(thing["rounded_nutrition_info"]["g_protein"]) / parseFloat(thing["rounded_nutrition_info"]["calories"])
+                    , "week": locations[week]
                 })
 
             }
         }
-        menu.sort((a, b) => b.ratio - a.ratio)
-        for (i of menu) {
-            const item = document.createElement("div");
 
-            item.style.border = "3px solid black";
-            item.appendChild(
-                Object.assign(document.createElement("p"), { textContent: "Calories" + i.calories + "Protien:" + i.protien + " " + i.name }))
-            document.body.appendChild(item);
 
-        }
+    } menu.sort((a, b) => (b.ratio || 0) - (a.ratio || 0))
 
-        
+    for (i of menu) {
+        const item = document.createElement("div");
+        item.id = "All Items"
+
+        item.style.border = "3px solid black";
+        //"Calories" + i.calories + "Protien:" + i.protien + " " + i.name +i.week
+        item.appendChild(
+            Object.assign(document.createElement("p"),
+                { textContent: "Market:" + i.week + " " + i.name + " " + i.protien + " grams of protien " + i.calories + " calories." + " remove later_" + i.ratio }))
+        document.body.appendChild(item);
+
     }
-    menu.sort((a, b) => b.ratio - a.ratio)
-        console.log(menu)
-})();
+    console.log(menu)
+
+};
+console.log("test2")
+doEverything();
+document.getElementById("meal").addEventListener("change", () => {
+    console.log("VERY IMPORTANT")
+    doEverything();
+})
 
