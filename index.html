@@ -1,7 +1,10 @@
 <head>
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="style.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -15,32 +18,52 @@
                     <option value="dinner">Dinner</option>
                 </select>
             </div>
-            <div id="searchbar">
-<input type="text">
+            <div id="formdiv" class="formdiv">
+                <input type="text" class="searchbar">
+                <button id="submitSearch" class="searchbutton" type="submit">
+                    <svg id="icon" xmlns="http://www.w3.org/2000/svg" height="18" width="18" viewBox="0 0 512 512">!Font
+                        Awesome
+                        Free 6.5.1 by @fontawesome - https://fontawesome.com License -
+                        https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.<path
+                            d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z">
+                        </path>
+                    </svg>
+                </button>
             </div>
-            <fieldset id="field">
+            <fieldset id="field" class="field">
                 <legend>Markets:</legend>
-                <input type="checkbox" id="four-lakes-market" value="four-lakes-market" checked>
-                <label for="four-lakes-market">Four Lake's</label>
-
-                <input type="checkbox" id="carsons-market" value="carsons-market" checked>
-                <label for="four-lakes-market">Carson's</label>
-
-                <input type="checkbox" id="gordon-avenue-market" value="gordon-avenue-market" checked>
-                <label for="four-lakes-market">Gordon Avenue</label>
-
-                <input type="checkbox" id="lizs-market" value="lizs-market" checked>
-                <label for="four-lakes-market">Liz's</label>
-
-                <input type="checkbox" id="rhetas-market" value="rhetas-market" checked>
-                <label for="four-lakes-market">Rheta's</label>
-
+                <div>
+                    <input type="checkbox" id="four-lakes-market" value="four-lakes-market" checked>
+                    <label for="four-lakes-market">Four Lake's</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="carsons-market" value="carsons-market" checked>
+                    <label for="four-lakes-market">Carson's</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="gordon-avenue-market" value="gordon-avenue-market" checked>
+                    <label for="four-lakes-market">Gordon Avenue</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="lizs-market" value="lizs-market" checked>
+                    <label for="four-lakes-market">Liz's</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="rhetas-market" value="rhetas-market" checked>
+                    <label for="four-lakes-market">Rheta's</label>
+                </div>
 
             </fieldset>
         </div>
-        <div>
+        <div class="itemsdiv">
+
 
             <p id="loading">Loading...</p>
+            <div class="newitem">
+                <h2 class="itemHeader">Four Lakes, Rhetas</h2>
+                <p class="itemDesc">Oven Roasted Turkey 3.7 grams of protien 17 calories for 1 servings, slice</p>
+
+            </div>
         </div>
     </div>
 </body>

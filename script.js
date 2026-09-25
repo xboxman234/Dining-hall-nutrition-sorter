@@ -221,7 +221,7 @@ async function doEverything() {
         item.appendChild(
             Object.assign(document.createElement("p"),
                 { textContent: i.locations.join(", ") + ": " + i.name + " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving}))
-        document.querySelector(".container").appendChild(item);
+        document.querySelector(".itemsdiv").appendChild(item);
 
     }
     document.getElementById("meal").disabled = false;
