@@ -215,12 +215,13 @@ async function doEverything() {
         const item = document.createElement("div");
         item.className = "Item"
 
-        item.style.border = "3px solid black";
+        //item.style.border = "3px solid black";
+        item.style.background="#f5f5f5"
         //"Calories" + i.calories + "Protien:" + i.protien + " " + i.name +i.week
         item.appendChild(
             Object.assign(document.createElement("p"),
                 { textContent: i.locations.join(", ") + ": " + i.name + " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving}))
-        document.body.appendChild(item);
+        document.querySelector(".container").appendChild(item);
 
     }
     document.getElementById("meal").disabled = false;

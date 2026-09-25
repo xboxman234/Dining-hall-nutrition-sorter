@@ -5,32 +5,42 @@
 </head>
 
 <body>
+    <div class="container">
+        <div class="topBar">
+            <div id="mealselectdiv">
+                <label for="meal">Select Meal:</label>
+                <select name="meal" id="meal">
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                </select>
+            </div>
+            <div id="searchbar">
+<input type="text">
+            </div>
+            <fieldset id="field">
+                <legend>Markets:</legend>
+                <input type="checkbox" id="four-lakes-market" value="four-lakes-market" checked>
+                <label for="four-lakes-market">Four Lake's</label>
 
-    <label for="meal">Select Meal:</label>
-    <select name="meal" id="meal">
-        <option value="breakfast">Breakfast</option>
-        <option value="lunch">Lunch</option>
-        <option value="dinner">Dinner</option>
-    </select>
-    <fieldset id="field">
-        <legend>Markets:</legend>
-        <input type="checkbox" id="four-lakes-market" value="four-lakes-market" checked>
-        <label for="four-lakes-market">Four Lake's</label>
+                <input type="checkbox" id="carsons-market" value="carsons-market" checked>
+                <label for="four-lakes-market">Carson's</label>
 
-        <input type="checkbox" id="carsons-market" value="carsons-market" checked>
-        <label for="four-lakes-market">Carson's</label>
+                <input type="checkbox" id="gordon-avenue-market" value="gordon-avenue-market" checked>
+                <label for="four-lakes-market">Gordon Avenue</label>
 
-        <input type="checkbox" id="gordon-avenue-market" value="gordon-avenue-market" checked>
-        <label for="four-lakes-market">Gordon Avenue</label>
+                <input type="checkbox" id="lizs-market" value="lizs-market" checked>
+                <label for="four-lakes-market">Liz's</label>
 
-        <input type="checkbox" id="lizs-market" value="lizs-market" checked>
-        <label for="four-lakes-market">Liz's</label>
-
-        <input type="checkbox" id="rhetas-market" value="rhetas-market" checked>
-        <label for="four-lakes-market">Rheta's</label>
+                <input type="checkbox" id="rhetas-market" value="rhetas-market" checked>
+                <label for="four-lakes-market">Rheta's</label>
 
 
-    </fieldset>
-    <p id="loading">Loading...</p>
+            </fieldset>
+        </div>
+        <div>
 
+            <p id="loading">Loading...</p>
+        </div>
+    </div>
 </body>
