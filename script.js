@@ -69,7 +69,7 @@ async function doEverything() {
     document.getElementById("rhetas-market").checked && locations.push(document.getElementById("rhetas-market").value)
 
     // loading bar to show that things are in fact working
-    document.getElementById("loading").textContent = "Loading...";
+    document.getElementById("loading").textContent = "Loading... This may take a while...";
     document.getElementById("meal").disabled = true;
     document.getElementById("field").disabled = true;
 
