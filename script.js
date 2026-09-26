@@ -69,7 +69,7 @@ async function doEverything() {
     document.getElementById("rhetas-market").checked && locations.push(document.getElementById("rhetas-market").value)
 
     // loading bar to show that things are in fact working
-    document.getElementById("loading").textContent = "Loading... This may take a while...";
+    document.getElementById("loading").textContent = "Loading... This may take a while....";
     document.getElementById("meal").disabled = true;
     document.getElementById("field").disabled = true;
 
@@ -235,6 +235,25 @@ console.log("test2")
 
 // run on page load
 doEverything();
+
+/**
+ * I put it out here, but feel free to move it inside the doEverything() function. Idk how you
+ * want to organize this.
+ * Filters items according to the text that the user has type.
+ * This should probably be called when the user clicks submit.
+ * If the search query is clear (account for whitespace), show all food items
+ */
+function filterItems(menu){
+    // Get the text from the search bar
+    let search_text = document.getElementById("searchbar_text");
+
+    // Sort the menu items(?)
+    // TODO: includes is CASE-SENSITIVE (keep this in mind)
+    // Return all the items with what ever text was in the search bar input
+    let search_result = menu.sort(item => menu.includes(search_text));
+
+    // TODO: Update the website 
+}
 
 // run again on dropdown change
 document.getElementById("meal").addEventListener("change", () => {
