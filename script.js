@@ -209,19 +209,21 @@ async function doEverything() {
     // sort by ratio (or 0 if its undefined or somthing)
     menu.sort((a, b) => (b.ratio || 0) - (a.ratio || 0))
     document.getElementById("loading").textContent = "";
-
+    const template = document.getElementById("itemTemplate")
     // create menu items, make pretty later
     for (i of menu) {
-        const item = document.createElement("div");
-        item.className = "Item"
-
+        const clone = template.content.cloneNode(true)
+        //const item = document.createElement("div");
+        //item.className = "Item"
+        clone.querySelector(".itemHeader").textContent=i.locations.join(", ");
+        clone.querySelector(".itemDesc").textContent=i.name + " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving;
+        
         //item.style.border = "3px solid black";
-        item.style.background="#f5f5f5"
         //"Calories" + i.calories + "Protien:" + i.protien + " " + i.name +i.week
-        item.appendChild(
-            Object.assign(document.createElement("p"),
-                { textContent: i.locations.join(", ") + ": " + i.name + " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving}))
-        document.querySelector(".itemsdiv").appendChild(item);
+        //item.appendChild(
+            //Object.assign(document.createElement("p"),
+                //{ textContent: i.locations.join(", ") + ": " + i.name + " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving}))
+        document.querySelector(".itemsdiv").appendChild(clone);
 
     }
     document.getElementById("meal").disabled = false;
