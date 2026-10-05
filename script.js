@@ -206,7 +206,7 @@ async function doEverything() {
                         "calories": thing["rounded_nutrition_info"]["calories"],
                         "ratio":
                             parseFloat(thing["rounded_nutrition_info"]["g_protein"]) / parseFloat(thing["rounded_nutrition_info"]["calories"])
-                        , "locations": [ ids[i][2]],
+                        , "locations": [ids[i][2]],
                         "serving": thing["serving_size_info"]["serving_size_amount"] + " servings, " + thing["serving_size_info"]["serving_size_unit"]
                     })
                 }
@@ -228,11 +228,24 @@ async function doEverything() {
     const template = document.getElementById("itemTemplate")
     // create menu items, make pretty later
     for (i of menu) {
+
         const clone = template.content.cloneNode(true)
         //const item = document.createElement("div");
         //item.className = "Item"
-        clone.querySelector(".itemHeader").textContent = i.locations.join(", ");
-        clone.querySelector(".itemDesc").textContent = i.name + " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving;
+        if ( document.getElementById("searchbar_text").value != "") {
+            if (!i.name.toLowerCase().includes(document.getElementById("searchbar_text").value.toLowerCase())) {
+                continue;
+            }
+            clone.querySelector(".itemHeader").textContent = i.locations.join(", ");
+            clone.querySelector(".highlight").textContent=i.name;
+            clone.querySelector(".itemDesc").textContent =  " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving;
+
+        }
+        else {
+            clone.querySelector(".itemHeader").textContent = i.locations.join(", ");
+            clone.querySelector(".itemDesc").textContent = i.name + " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving;
+
+        }
 
         //item.style.border = "3px solid black";
         //"Calories" + i.calories + "Protien:" + i.protien + " " + i.name +i.week
@@ -259,7 +272,7 @@ doEverything();
  * This should probably be called when the user clicks submit.
  * If the search query is clear (account for whitespace), show all food items
  */
-function filterItems(menu){
+function filterItems(menu) {
     // Get the text from the search bar
     let search_text = document.getElementById("searchbar_text");
 
@@ -273,6 +286,10 @@ function filterItems(menu){
 
 // run again on dropdown change
 document.getElementById("meal").addEventListener("change", () => {
+    console.log("VERY IMPORTANT")
+    doEverything();
+})
+document.getElementById("searchbar_text").addEventListener("input", () => {
     console.log("VERY IMPORTANT")
     doEverything();
 })

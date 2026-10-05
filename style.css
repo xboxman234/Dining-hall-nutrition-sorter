@@ -144,6 +144,9 @@ h6 {
   flex-grow: 1;
 
 }
+.highlight{
+  background-color: yellow;
+}
 .newitem1 {
   margin: 5px;
   margin-left: 10px;
