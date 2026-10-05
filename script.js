@@ -67,7 +67,7 @@ async function doEverything() {
     document.getElementById("gordon-avenue-market").checked && locations.push(document.getElementById("gordon-avenue-market").value)
     document.getElementById("lizs-market").checked && locations.push(document.getElementById("lizs-market").value)
     document.getElementById("rhetas-market").checked && locations.push(document.getElementById("rhetas-market").value)
-
+    console.log("TEST1:" + locations)
     // loading bar to show that things are in fact working
     document.getElementById("loading").textContent = "Loading... This may take a while...";
     document.getElementById("meal").disabled = true;
@@ -75,6 +75,10 @@ async function doEverything() {
 
 
     document.querySelectorAll(".Item").forEach(element => {
+        element.remove();
+
+    });
+    document.querySelectorAll(".newitem").forEach(element => {
         element.remove();
 
     });
@@ -91,6 +95,7 @@ async function doEverything() {
         let ids = [];
         // Loop through each market return menu
         for (var week = 0; week < alldays.length; week++) {
+            console.log("test3" + NAMES[locations[week]])
             document.getElementById("loading").textContent += ".";
 
             // ids for subset foods like yogurt bar
@@ -118,6 +123,8 @@ async function doEverything() {
 
 
                 if (i["food"]["nested_foods"].length != 0) {
+                    console.log("test3" + NAMES[locations[week]])
+
                     ids.push([i["id"], i["food"]["nested_foods"], NAMES[locations[week]]]);
                     console.log(i["id"], i["food"]["nested_foods"])
                     continue
@@ -130,10 +137,14 @@ async function doEverything() {
                 var target = Object.values(menu).find(user => user.name === i["food"]["name"]);
                 if (target) {
                     if (!target.locations.includes(NAMES[locations[week]])) {
+                        console.log("test3" + NAMES[locations[week]])
+
                         target.locations.push(NAMES[locations[week]]);
                     }
                 }
                 else {
+                    console.log("test3" + NAMES[locations[week]])
+
                     // menu item
                     menu.push({
 
@@ -143,7 +154,7 @@ async function doEverything() {
                         "ratio":
                             parseFloat(i["food"]["rounded_nutrition_info"]["g_protein"]) / parseFloat(i["food"]["rounded_nutrition_info"]["calories"]),
                         "locations": [NAMES[locations[week]]],
-                        "serving": i["food"]["serving_size_info"]["serving_size_amount"]+" servings, "+i["food"]["serving_size_info"]["serving_size_unit"]
+                        "serving": i["food"]["serving_size_info"]["serving_size_amount"] + " servings, " + i["food"]["serving_size_info"]["serving_size_unit"]
                     })
                 }
             }
@@ -161,7 +172,7 @@ async function doEverything() {
 
         // loop through the retuned id nutrition info
         for (var i = 0; i < ids.length; i++) {
-            
+
 
             let items = idsResponses[i];
             console.log("-----")
@@ -170,6 +181,7 @@ async function doEverything() {
 
             // forgot why i need to loop through here again
             for (var l of ids[i][1]) {
+                console.log("test4" + ids[i][2])
                 // supposed to give an indication of how its loading, lowk doesnt work at all idk why
                 document.getElementById("loading").textContent += ".";
                 // thing is the parent of the food
@@ -180,18 +192,22 @@ async function doEverything() {
                 var target = Object.values(menu).find(user => user.name === thing["name"]);
                 if (target) {
                     if (!target.locations.includes(ids[i][2])) {
+                        console.log("test3" + ids[i][2])
+
                         target.locations.push(ids[i][2]);
                     }
 
                 } else {
+                    console.log("test3" + ids[i][2])
+
                     menu.push({
                         "name": thing["name"],
                         "protien": thing["rounded_nutrition_info"]["g_protein"],
                         "calories": thing["rounded_nutrition_info"]["calories"],
                         "ratio":
                             parseFloat(thing["rounded_nutrition_info"]["g_protein"]) / parseFloat(thing["rounded_nutrition_info"]["calories"])
-                        , "locations": [ids[i][2]],
-                        "serving": thing["serving_size_info"]["serving_size_amount"]+" servings, "+thing["serving_size_info"]["serving_size_unit"]
+                        , "locations": [ ids[i][2]],
+                        "serving": thing["serving_size_info"]["serving_size_amount"] + " servings, " + thing["serving_size_info"]["serving_size_unit"]
                     })
                 }
 
@@ -215,14 +231,14 @@ async function doEverything() {
         const clone = template.content.cloneNode(true)
         //const item = document.createElement("div");
         //item.className = "Item"
-        clone.querySelector(".itemHeader").textContent=i.locations.join(", ");
-        clone.querySelector(".itemDesc").textContent=i.name + " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving;
-        
+        clone.querySelector(".itemHeader").textContent = i.locations.join(", ");
+        clone.querySelector(".itemDesc").textContent = i.name + " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving;
+
         //item.style.border = "3px solid black";
         //"Calories" + i.calories + "Protien:" + i.protien + " " + i.name +i.week
         //item.appendChild(
-            //Object.assign(document.createElement("p"),
-                //{ textContent: i.locations.join(", ") + ": " + i.name + " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving}))
+        //Object.assign(document.createElement("p"),
+        //{ textContent: i.locations.join(", ") + ": " + i.name + " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving}))
         document.querySelector(".itemsdiv").appendChild(clone);
 
     }
