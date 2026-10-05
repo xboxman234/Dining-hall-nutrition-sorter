@@ -228,17 +228,24 @@ async function doEverything() {
     const template = document.getElementById("itemTemplate")
     // create menu items, make pretty later
     for (i of menu) {
+        var searchTermPresent = false;
 
         const clone = template.content.cloneNode(true)
         //const item = document.createElement("div");
         //item.className = "Item"
-        if ( document.getElementById("searchbar_text").value != "") {
-            if (!i.name.toLowerCase().includes(document.getElementById("searchbar_text").value.toLowerCase())) {
-                continue;
+        if (document.getElementById("searchbar_text").value != "") {
+            console.log("test10", document.getElementById("searchbar_text").value.split(","))
+            for (l of document.getElementById("searchbar_text").value.split(",")) {
+                if (i.name.toLowerCase().includes(l.toLowerCase())) {
+                    searchTermPresent = true;
+                }
+            }
+            if (searchTermPresent==false) {
+                continue
             }
             clone.querySelector(".itemHeader").textContent = i.locations.join(", ");
-            clone.querySelector(".highlight").textContent=i.name;
-            clone.querySelector(".itemDesc").textContent =  " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving;
+            clone.querySelector(".highlight").textContent = i.name;
+            clone.querySelector(".itemDesc").textContent = " " + i.protien + " grams of protien " + i.calories + " calories for " + i.serving;
 
         }
         else {
